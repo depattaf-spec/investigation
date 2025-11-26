@@ -1,6 +1,6 @@
 import React from 'react';
 import { Evidence } from '../types';
-import { FileText, Database, FlaskConical, MapPin, Tag } from 'lucide-react';
+import { FileText, Database, FlaskConical, MapPin, Tag, Share2 } from 'lucide-react';
 
 interface EvidenceBoardProps {
   evidence: Evidence[];
@@ -19,92 +19,82 @@ export const EvidenceBoard: React.FC<EvidenceBoardProps> = ({ evidence }) => {
     }
   };
 
-  const getColor = (category: string) => {
+  const getColorClasses = (category: string) => {
     switch (category) {
-      case 'physical': return 'border-red-800 text-red-900';
-      case 'document': return 'border-blue-800 text-blue-900';
-      case 'forensic': return 'border-purple-800 text-purple-900';
-      case 'testimony': return 'border-green-800 text-green-900';
-      default: return 'border-gray-800 text-gray-900';
+      case 'physical': return 'border-red-500/50 text-red-400 shadow-[0_0_10px_rgba(239,68,68,0.2)]';
+      case 'document': return 'border-blueprint-400/50 text-blueprint-300 shadow-[0_0_10px_rgba(100,149,237,0.2)]';
+      case 'forensic': return 'border-purple-500/50 text-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.2)]';
+      case 'testimony': return 'border-green-500/50 text-green-400 shadow-[0_0_10px_rgba(34,197,94,0.2)]';
+      default: return 'border-gray-500 text-gray-400';
     }
   }
 
   return (
-    <div className="h-full overflow-y-auto p-8 bg-stone-800 relative shadow-inner">
-      {/* Cork Texture Overlay */}
-      <div className="absolute inset-0 opacity-40 pointer-events-none z-0" 
-           style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/cork-board.png")`, backgroundSize: '300px' }}></div>
+    <div className="h-full overflow-y-auto p-8 bg-blueprint-950 relative shadow-inner font-mono">
+      {/* Grid Background */}
+      <div className="absolute inset-0 pointer-events-none z-0 bg-grid-pattern opacity-30"></div>
       
-      <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8 auto-rows-max pb-20">
+      <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-max pb-20">
         
-        {/* Title Card */}
-        <div className="col-span-full mb-4 flex justify-center">
-            <div className="bg-paper-100 px-8 py-4 shadow-[0_5px_15px_rgba(0,0,0,0.5)] transform -rotate-1 border border-gray-400 relative">
-                {/* SVG Tape */}
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 opacity-80">
-                   <svg width="100" height="30" viewBox="0 0 100 30">
-                      <rect x="0" y="0" width="100" height="30" fill="rgba(255,255,255,0.4)" transform="rotate(-2)" />
-                   </svg>
-                </div>
-                <h1 className="font-serif text-3xl text-black font-bold tracking-widest uppercase border-b-4 border-black pb-1">Case #10-13</h1>
+        {/* Title Header */}
+        <div className="col-span-full mb-6 flex justify-between items-end border-b border-blueprint-500/30 pb-2">
+            <div>
+               <h1 className="text-2xl text-blueprint-400 font-bold tracking-widest uppercase text-glow">
+                 <span className="text-blueprint-600 mr-2">/</span>
+                 DIGITAL EVIDENCE WALL
+               </h1>
+               <p className="text-[10px] text-blueprint-600 mt-1 uppercase">Visualized Data Relations</p>
+            </div>
+            <div className="text-right hidden md:block">
+               <div className="text-xs text-blueprint-500 font-bold">NODES: {collectedEvidence.length}</div>
             </div>
         </div>
 
         {collectedEvidence.length === 0 ? (
-          <div className="col-span-full flex flex-col items-center justify-center text-stone-500 mt-20 opacity-50">
-            <div className="border-4 border-dashed border-stone-600 p-10 rounded-xl text-center">
-               <p className="text-3xl font-serif mb-2">EVIDENCE BOARD EMPTY</p>
-               <p className="font-mono">Collect clues to build the case.</p>
+          <div className="col-span-full flex flex-col items-center justify-center text-blueprint-700 mt-20 opacity-50">
+            <div className="border border-dashed border-blueprint-700 p-10 text-center bg-blueprint-900/30 rounded">
+               <Database size={48} className="mx-auto mb-4 opacity-50" />
+               <p className="text-xl font-bold mb-2">NO DATA NODES FOUND</p>
+               <p className="text-xs uppercase tracking-widest">Collect clues to populate matrix.</p>
             </div>
           </div>
         ) : (
           collectedEvidence.map((item, index) => {
-            // Random rotation for natural look
-            const rotation = index % 2 === 0 ? 'rotate-1' : '-rotate-1';
+            const colorClass = getColorClasses(item.category);
             
             return (
             <div 
               key={item.id} 
-              className={`bg-paper-100 p-4 shadow-[2px_5px_10px_rgba(0,0,0,0.3)] transition-transform hover:scale-105 hover:z-20 relative flex flex-col min-h-[220px] max-w-[300px] mx-auto w-full ${rotation}`}
+              className={`bg-blueprint-900/80 backdrop-blur-sm border p-4 transition-all hover:scale-105 hover:z-20 relative flex flex-col min-h-[180px] group ${colorClass}`}
             >
-              {/* SVG Pushpin */}
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-20">
-                 <svg width="20" height="40" viewBox="0 0 20 40">
-                    <circle cx="10" cy="10" r="6" fill="#b91c1c" stroke="#7f1d1d" strokeWidth="1" />
-                    <path d="M10 16 L10 35" stroke="black" strokeWidth="1" strokeOpacity="0.5" />
-                    {/* Shadow */}
-                    <ellipse cx="12" cy="38" rx="2" ry="1" fill="black" opacity="0.3" />
-                 </svg>
-              </div>
+              {/* Connector Dot */}
+              <div className="absolute -top-1.5 left-1/2 transform -translate-x-1/2 z-20 w-3 h-3 bg-blueprint-950 border border-current rounded-full"></div>
               
-              {/* Card Content */}
-              <div className="mt-2 border-b-2 border-gray-300 pb-2 mb-2 flex justify-between items-start">
-                 <h3 className="font-serif font-bold text-lg text-black leading-tight pr-4">{item.name}</h3>
-                 <div className={`p-1 rounded-full border ${getColor(item.category)} bg-white/50`}>
+              {/* Header */}
+              <div className="flex justify-between items-start mb-3 border-b border-current/20 pb-2">
+                 <h3 className="font-bold text-sm leading-tight pr-2 uppercase tracking-wide">{item.name}</h3>
+                 <div className="opacity-80">
                     {getIcon(item.category)}
                  </div>
               </div>
               
+              {/* Body */}
               <div className="flex-grow relative">
-                 <p className="font-mono text-sm text-gray-800 leading-snug">{item.description}</p>
-                 
-                 {/* Decorative coffee stain SVG for some cards */}
-                 {index % 3 === 0 && (
-                   <div className="absolute bottom-0 right-0 opacity-10 pointer-events-none transform translate-x-4 translate-y-4">
-                     <svg width="60" height="60" viewBox="0 0 60 60">
-                        <circle cx="30" cy="30" r="25" fill="none" stroke="#5c4033" strokeWidth="4" strokeDasharray="40,20" />
-                     </svg>
-                   </div>
-                 )}
+                 <p className="text-xs leading-relaxed opacity-90">
+                   {item.description}
+                 </p>
               </div>
               
-              {/* Footer Tag */}
-              <div className="mt-4 pt-2 border-t border-dashed border-gray-400 flex items-center gap-2">
-                <Tag size={12} className="text-gray-500" />
-                <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-gray-600">
-                  {item.category}
-                </span>
+              {/* Footer */}
+              <div className="mt-4 pt-2 border-t border-dashed border-current/20 flex items-center justify-between text-[10px] opacity-70">
+                <div className="flex items-center gap-1 uppercase font-bold">
+                  <Tag size={10} /> {item.category}
+                </div>
+                <div>ID: {item.id.substring(0,4).toUpperCase()}</div>
               </div>
+
+              {/* Hover Glow Effect */}
+              <div className="absolute inset-0 bg-current opacity-0 group-hover:opacity-5 transition-opacity pointer-events-none"></div>
             </div>
           )})
         )}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Suspect, Evidence, AccusationData } from '../types';
 import { ACCUSATION_OPTIONS, SOLUTION } from '../constants';
-import { Gavel, AlertOctagon, CheckCircle2 } from 'lucide-react';
+import { Gavel, AlertOctagon, CheckCircle2, FileWarning } from 'lucide-react';
 import { SuspectAvatar } from './SuspectAvatar';
 
 interface AccusationProps {
@@ -34,11 +34,11 @@ export const Accusation: React.FC<AccusationProps> = ({ suspects, evidence, onSu
 
   const handleSubmit = () => {
     if (!data.suspectId || !data.methodId || !data.motiveId || !data.timeId) {
-      setError('REPORT INCOMPLETE. ALL FIELDS MANDATORY.');
+      setError('ERROR: ALL FIELDS REQUIRED FOR SUBMISSION.');
       return;
     }
     if (data.evidenceIds.length < 3) {
-      setError('INSUFFICIENT EVIDENCE. ATTACH AT LEAST 3 ITEMS.');
+      setError('ERROR: MINIMUM 3 EVIDENCE ITEMS REQUIRED.');
       return;
     }
     setError('');
@@ -47,19 +47,19 @@ export const Accusation: React.FC<AccusationProps> = ({ suspects, evidence, onSu
 
   if (gameSolved) {
     return (
-      <div className="h-full flex items-center justify-center p-8 bg-noir-950 bg-noise">
-        <div className="text-center max-w-2xl bg-paper-100 p-12 border-4 border-double border-green-700 shadow-2xl relative">
-          <div className="absolute top-4 right-4 border-2 border-green-800 text-green-800 px-2 py-1 font-mono text-xs font-bold uppercase rotate-12">
-             Case Closed
+      <div className="h-full flex items-center justify-center p-8 bg-blueprint-950 bg-grid-pattern text-blueprint-100 font-mono">
+        <div className="text-center max-w-2xl bg-blueprint-900/80 p-12 border-2 border-success-500 shadow-[0_0_50px_rgba(16,185,129,0.2)] relative backdrop-blur-md">
+          <div className="absolute top-4 right-4 border border-success-500 text-success-500 px-3 py-1 text-xs font-bold uppercase tracking-widest">
+             Case Status: CLOSED
           </div>
-          <CheckCircle2 size={60} className="mx-auto text-green-700 mb-6" />
-          <h1 className="text-4xl font-serif text-black mb-4">JUSTICE SERVED</h1>
-          <div className="w-16 h-1 bg-black mx-auto mb-6"></div>
-          <p className="text-xl text-gray-800 font-serif leading-relaxed mb-8">
-            Excellent work, Detective. Thomas Garrett has been apprehended. The evidence you gathered was irrefutable.
+          <CheckCircle2 size={64} className="mx-auto text-success-500 mb-6 drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+          <h1 className="text-4xl font-bold text-white mb-4 tracking-wider text-glow">JUSTICE SERVED</h1>
+          <div className="w-24 h-1 bg-success-500 mx-auto mb-6"></div>
+          <p className="text-lg text-blueprint-200 leading-relaxed mb-8">
+            Excellent work, Detective. The perpetrator has been processed. Final report filed successfully.
           </p>
-          <div className="p-4 bg-green-50 border border-green-200 text-green-900 font-mono text-sm">
-            STATUS: SOLVED // FILE ARCHIVED
+          <div className="p-4 bg-success-900/20 border border-success-500/30 text-success-400 text-sm">
+            &gt; SYSTEM: LOGGING OUT...
           </div>
         </div>
       </div>
@@ -67,43 +67,46 @@ export const Accusation: React.FC<AccusationProps> = ({ suspects, evidence, onSu
   }
 
   return (
-    <div className="h-full p-4 md:p-6 overflow-y-auto pb-20 bg-paper-200 bg-noise text-noir-900">
-      <div className="max-w-4xl mx-auto bg-paper-100 shadow-[0_0_30px_rgba(0,0,0,0.3)] min-h-full p-6 md:p-12 relative">
+    <div className="h-full p-4 md:p-8 overflow-y-auto pb-24 bg-blueprint-950 bg-grid-pattern text-blueprint-100 font-mono">
+      <div className="max-w-4xl mx-auto bg-blueprint-900/40 border border-blueprint-500/20 shadow-2xl min-h-full p-6 md:p-10 relative backdrop-blur-sm">
         
-        {/* Report Header */}
-        <div className="border-b-4 border-black pb-6 mb-10 flex justify-between items-start">
+        {/* Header */}
+        <div className="border-b border-blueprint-500/50 pb-6 mb-10 flex justify-between items-start">
            <div>
-             <h1 className="text-2xl md:text-3xl font-bold font-serif tracking-widest uppercase">Official Indictment</h1>
-             <p className="font-mono text-sm mt-1 text-gray-600">Criminal Investigation Division // Homicide</p>
+             <h1 className="text-2xl md:text-3xl font-bold text-blueprint-400 tracking-widest uppercase text-glow">Final Indictment</h1>
+             <p className="text-xs text-blueprint-600 mt-1 uppercase">Submit Warrants to District Attorney</p>
            </div>
-           <div className="border-2 border-red-800 p-2 text-center transform rotate-6 opacity-80 hidden md:block">
-              <span className="block text-xs text-red-800 font-bold uppercase">Confidential</span>
-              <span className="block text-red-800 font-serif text-lg leading-none">DO NOT COPY</span>
+           <div className="hidden md:block border border-red-500/50 p-2 bg-red-900/10">
+              <div className="flex items-center gap-2 text-red-500 font-bold text-xs uppercase tracking-widest">
+                 <FileWarning size={14} /> Official Document
+              </div>
            </div>
         </div>
 
-        <div className="space-y-10">
+        <div className="space-y-12">
           {/* 1. Who */}
           <section>
-            <h3 className="font-mono font-bold uppercase text-sm mb-4 border-b border-gray-400 pb-1 flex items-center gap-2">
-              <span className="bg-black text-white w-6 h-6 flex items-center justify-center rounded-full text-xs">1</span>
-              Primary Suspect
+            <h3 className="text-blueprint-300 font-bold uppercase text-xs mb-4 border-b border-blueprint-500/30 pb-1 flex items-center gap-2">
+              <span className="bg-blueprint-500 text-blueprint-950 w-5 h-5 flex items-center justify-center text-[10px] font-bold">1</span>
+              Identify Primary Suspect
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
               {suspects.map(s => (
                 <button
                   key={s.id}
                   onClick={() => setData({ ...data, suspectId: s.id })}
-                  className={`p-2 transition-all flex flex-col items-center gap-2 border-2 ${
+                  className={`p-3 transition-all flex flex-col items-center gap-3 border ${
                     data.suspectId === s.id 
-                      ? 'border-red-600 bg-red-50 opacity-100 scale-105 shadow-lg' 
-                      : 'border-transparent hover:border-gray-300 opacity-60 grayscale hover:grayscale-0'
+                      ? 'border-alert-500 bg-alert-900/20 shadow-[0_0_15px_rgba(239,68,68,0.3)]' 
+                      : 'border-blueprint-800 bg-blueprint-950 hover:border-blueprint-500'
                   }`}
                 >
-                  <div className="w-16 h-16 md:w-20 md:h-20 bg-gray-200 p-1">
-                     <SuspectAvatar id={s.id} color="#000" />
+                  <div className="w-16 h-16 md:w-20 md:h-20 bg-blueprint-900 p-1 relative">
+                     <SuspectAvatar id={s.id} color={data.suspectId === s.id ? "#ef4444" : "#475569"} />
                   </div>
-                  <span className="text-xs font-bold font-serif text-center">{s.name}</span>
+                  <span className={`text-[10px] font-bold uppercase tracking-wide ${data.suspectId === s.id ? 'text-alert-500' : 'text-blueprint-400'}`}>
+                    {s.name}
+                  </span>
                 </button>
               ))}
             </div>
@@ -111,91 +114,92 @@ export const Accusation: React.FC<AccusationProps> = ({ suspects, evidence, onSu
 
           {/* 2. Method, Motive, Time */}
           <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
-              <h3 className="font-mono font-bold uppercase text-sm mb-3 border-b border-gray-400 pb-1">
+            <div className="space-y-1">
+              <h3 className="text-blueprint-300 font-bold uppercase text-xs mb-2">
                  Method of Killing
               </h3>
               <select 
-                className="w-full bg-white border-2 border-gray-300 p-3 font-serif focus:border-black outline-none"
+                className="w-full bg-blueprint-950 border border-blueprint-600 text-blueprint-200 p-3 text-sm focus:border-blueprint-400 outline-none uppercase tracking-wide appearance-none hover:bg-blueprint-900 transition-colors"
                 value={data.methodId}
                 onChange={(e) => setData({ ...data, methodId: e.target.value })}
               >
-                <option value="">Select Method...</option>
-                {ACCUSATION_OPTIONS.methods.map(o => <option key={o.id} value={o.id}>{o.label}</option>)}
+                <option value="">-- SELECT METHOD --</option>
+                {ACCUSATION_OPTIONS.methods.map(o => <option key={o.id} value={o.id}>{o.label.toUpperCase()}</option>)}
               </select>
             </div>
 
-            <div>
-              <h3 className="font-mono font-bold uppercase text-sm mb-3 border-b border-gray-400 pb-1">
+            <div className="space-y-1">
+              <h3 className="text-blueprint-300 font-bold uppercase text-xs mb-2">
                  Motive
               </h3>
               <select 
-                className="w-full bg-white border-2 border-gray-300 p-3 font-serif focus:border-black outline-none"
+                className="w-full bg-blueprint-950 border border-blueprint-600 text-blueprint-200 p-3 text-sm focus:border-blueprint-400 outline-none uppercase tracking-wide appearance-none hover:bg-blueprint-900 transition-colors"
                 value={data.motiveId}
                 onChange={(e) => setData({ ...data, motiveId: e.target.value })}
               >
-                <option value="">Select Motive...</option>
-                {ACCUSATION_OPTIONS.motives.map(o => <option key={o.id} value={o.id}>{o.label}</option>)}
+                <option value="">-- SELECT MOTIVE --</option>
+                {ACCUSATION_OPTIONS.motives.map(o => <option key={o.id} value={o.id}>{o.label.toUpperCase()}</option>)}
               </select>
             </div>
 
-            <div>
-              <h3 className="font-mono font-bold uppercase text-sm mb-3 border-b border-gray-400 pb-1">
+            <div className="space-y-1">
+              <h3 className="text-blueprint-300 font-bold uppercase text-xs mb-2">
                  Time of Incident
               </h3>
               <select 
-                className="w-full bg-white border-2 border-gray-300 p-3 font-serif focus:border-black outline-none"
+                className="w-full bg-blueprint-950 border border-blueprint-600 text-blueprint-200 p-3 text-sm focus:border-blueprint-400 outline-none uppercase tracking-wide appearance-none hover:bg-blueprint-900 transition-colors"
                 value={data.timeId}
                 onChange={(e) => setData({ ...data, timeId: e.target.value })}
               >
-                <option value="">Select Time...</option>
-                {ACCUSATION_OPTIONS.times.map(o => <option key={o.id} value={o.id}>{o.label}</option>)}
+                <option value="">-- SELECT TIME --</option>
+                {ACCUSATION_OPTIONS.times.map(o => <option key={o.id} value={o.id}>{o.label.toUpperCase()}</option>)}
               </select>
             </div>
           </section>
 
           {/* 3. Evidence */}
           <section>
-            <h3 className="font-mono font-bold uppercase text-sm mb-4 border-b border-gray-400 pb-1 flex items-center gap-2">
-              <span className="bg-black text-white w-6 h-6 flex items-center justify-center rounded-full text-xs">2</span>
-              Supporting Evidence Exhibits
+            <h3 className="text-blueprint-300 font-bold uppercase text-xs mb-4 border-b border-blueprint-500/30 pb-1 flex items-center gap-2">
+              <span className="bg-blueprint-500 text-blueprint-950 w-5 h-5 flex items-center justify-center text-[10px] font-bold">2</span>
+              Attach Key Evidence (Min 3)
             </h3>
             {collectedEvidence.length === 0 ? (
-              <p className="text-gray-500 italic font-serif">Evidence locker empty.</p>
+              <div className="p-4 border border-dashed border-blueprint-700 text-blueprint-600 text-xs italic">
+                &gt; NO EVIDENCE AVAILABLE IN DATABASE.
+              </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 {collectedEvidence.map(e => (
                   <button
                     key={e.id}
                     onClick={() => toggleEvidence(e.id)}
-                    className={`text-left p-3 border-2 text-sm transition-all flex items-center gap-3 ${
+                    className={`text-left p-3 border text-xs transition-all flex items-center gap-3 ${
                       data.evidenceIds.includes(e.id) 
-                        ? 'bg-noir-900 text-gold-400 border-noir-900 font-bold shadow-md transform -translate-y-1' 
-                        : 'bg-white border-gray-300 text-gray-600 hover:border-gray-500'
+                        ? 'bg-blueprint-500/20 text-blueprint-100 border-blueprint-400 font-bold shadow-md' 
+                        : 'bg-blueprint-950 border-blueprint-800 text-blueprint-500 hover:border-blueprint-600'
                     }`}
                   >
-                    <div className={`w-3 h-3 border ${data.evidenceIds.includes(e.id) ? 'bg-gold-500 border-gold-500' : 'border-gray-400'}`}></div>
-                    {e.name}
+                    <div className={`w-3 h-3 border ${data.evidenceIds.includes(e.id) ? 'bg-blueprint-400 border-blueprint-400' : 'border-blueprint-700 bg-blueprint-950'}`}></div>
+                    <span className="truncate">{e.name.toUpperCase()}</span>
                   </button>
                 ))}
               </div>
             )}
-            <p className="text-xs text-gray-500 mt-2 font-mono italic text-right">* Minimum 3 exhibits required</p>
           </section>
 
           {/* Submit */}
-          <div className="pt-8 border-t-4 border-black flex flex-col items-center gap-6">
+          <div className="pt-8 border-t border-blueprint-500/30 flex flex-col items-center gap-6">
             {error && (
-              <div className="bg-red-100 border-l-4 border-red-600 text-red-800 p-4 font-mono text-sm w-full">
-                ERROR: {error}
+              <div className="bg-alert-900/20 border border-alert-500 text-alert-500 p-4 text-xs w-full text-center tracking-widest">
+                &gt; {error}
               </div>
             )}
             <button
               onClick={handleSubmit}
-              className="bg-red-800 hover:bg-red-700 text-white font-bold py-4 px-12 text-xl tracking-widest shadow-xl transition-all flex items-center gap-3 uppercase font-serif border-2 border-red-900 w-full md:w-auto justify-center"
+              className="bg-alert-900/80 hover:bg-alert-800 text-white font-bold py-4 px-12 text-lg tracking-[0.2em] shadow-[0_0_20px_rgba(239,68,68,0.4)] transition-all flex items-center gap-3 uppercase font-mono border border-alert-600 w-full md:w-auto justify-center group"
             >
-              <Gavel size={28} />
-              Issue Warrant
+              <Gavel size={24} className="group-hover:rotate-12 transition-transform" />
+              File Indictment
             </button>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { LabTest, Evidence } from '../types';
-import { FlaskConical, Play, CheckCircle, Clock, FileSearch } from 'lucide-react';
+import { FlaskConical, Play, CheckCircle, Clock, FileSearch, Activity } from 'lucide-react';
 
 interface LabProps {
   tests: LabTest[];
@@ -27,19 +27,22 @@ export const Lab: React.FC<LabProps> = ({ tests, evidence, onRunTest, onComplete
   const collectedEvidenceIds = evidence.filter(e => e.isCollected).map(e => e.id);
 
   return (
-    <div className="h-full p-6 md:p-12 overflow-y-auto bg-noir-900 bg-noise">
-      <div className="max-w-4xl mx-auto">
+    <div className="h-full p-6 md:p-12 overflow-y-auto bg-blueprint-950 bg-grid-pattern text-blueprint-100 font-mono">
+      <div className="max-w-5xl mx-auto pb-20">
         
         {/* Header Block */}
-        <div className="mb-10 flex items-center justify-between border-b-4 border-noir-700 pb-6">
+        <div className="mb-10 flex items-center justify-between border-b border-blueprint-500/30 pb-6 bg-blueprint-900/50 p-6 backdrop-blur-md shadow-lg border-l-4 border-l-blueprint-500">
            <div>
-              <h2 className="text-4xl font-serif text-paper-200">FORENSIC ANALYSIS</h2>
-              <p className="font-mono text-gold-500 mt-2">Laboratory Dept. // Case #10-13</p>
+              <h2 className="text-3xl font-bold text-blueprint-400 tracking-widest text-glow">FORENSICS_LAB</h2>
+              <div className="flex items-center gap-2 text-xs text-blueprint-600 mt-2 uppercase">
+                 <Activity size={12} className="animate-pulse" />
+                 <span>System Operational // Case #10-13</span>
+              </div>
            </div>
-           <FlaskConical size={64} className="text-noir-700" />
+           <FlaskConical size={48} className="text-blueprint-500/50" />
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-4">
           {tests.map(test => {
             const canRun = collectedEvidenceIds.includes(test.requiredEvidenceId);
             const isCompleted = test.status === 'completed';
@@ -48,35 +51,33 @@ export const Lab: React.FC<LabProps> = ({ tests, evidence, onRunTest, onComplete
             return (
               <div 
                 key={test.id} 
-                className={`relative group transition-all duration-300 border-2
+                className={`relative group transition-all duration-300 border border-l-4
                   ${isCompleted 
-                    ? 'bg-paper-100 border-green-800/50' 
+                    ? 'bg-blueprint-900/30 border-success-900/50 border-l-success-500' 
                     : isRunning 
-                      ? 'bg-noir-800 border-gold-500' 
-                      : 'bg-noir-800 border-noir-700'
+                      ? 'bg-blueprint-900/50 border-blueprint-500 border-l-blueprint-400' 
+                      : 'bg-blueprint-900/20 border-blueprint-800 border-l-blueprint-700 opacity-80 hover:opacity-100'
                   }`}
               >
-                {/* Status Indicator Stripe */}
-                <div className={`absolute left-0 top-0 bottom-0 w-2 
-                  ${isCompleted ? 'bg-green-700' : isRunning ? 'bg-gold-500 animate-pulse' : 'bg-noir-600'}`}>
-                </div>
+                {/* Scanline overlay for running tests */}
+                {isRunning && <div className="absolute inset-0 bg-scanlines opacity-20 pointer-events-none"></div>}
 
-                <div className="p-6 pl-8 flex flex-col md:flex-row md:items-start justify-between gap-6">
+                <div className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
                   <div className="flex-grow">
                     <div className="flex items-center gap-3 mb-2">
-                       <h3 className={`text-xl font-bold font-serif ${isCompleted ? 'text-black' : 'text-paper-200'}`}>
+                       <h3 className={`text-lg font-bold uppercase tracking-wider ${isCompleted ? 'text-success-400' : 'text-blueprint-300'}`}>
                          {test.name}
                        </h3>
-                       {isCompleted && <CheckCircle size={18} className="text-green-700" />}
+                       {isCompleted && <CheckCircle size={16} className="text-success-500" />}
                     </div>
                     
-                    <p className={`font-mono text-sm mb-4 ${isCompleted ? 'text-gray-700' : 'text-gray-400'}`}>
+                    <p className="text-xs text-blueprint-400/70 mb-3 max-w-xl">
                       {test.description}
                     </p>
                     
                     {!canRun && test.status === 'available' && (
-                       <div className="inline-flex items-center gap-2 text-xs font-bold text-red-400 bg-red-900/20 px-3 py-1 rounded border border-red-900/30 uppercase tracking-wide">
-                         <FileSearch size={12} /> Evidence Required
+                       <div className="inline-flex items-center gap-2 text-[10px] font-bold text-alert-500 bg-alert-900/10 px-2 py-1 border border-alert-900/30 uppercase tracking-wide">
+                         <FileSearch size={10} /> SAMPLE_MISSING
                        </div>
                     )}
                   </div>
@@ -85,16 +86,16 @@ export const Lab: React.FC<LabProps> = ({ tests, evidence, onRunTest, onComplete
                     {test.status === 'available' && canRun && (
                       <button 
                         onClick={() => onRunTest(test.id)}
-                        className="flex items-center gap-2 bg-gold-600 hover:bg-gold-500 text-black px-6 py-3 font-bold font-mono text-sm tracking-wider uppercase transition-colors shadow-lg hover:shadow-gold-500/20"
+                        className="flex items-center gap-2 bg-blueprint-500/10 hover:bg-blueprint-500 text-blueprint-400 hover:text-blueprint-950 border border-blueprint-500 px-6 py-2 font-bold text-xs tracking-[0.2em] uppercase transition-all shadow-[0_0_10px_rgba(100,149,237,0.1)] hover:shadow-[0_0_20px_rgba(100,149,237,0.4)]"
                       >
-                        <Play size={16} /> Init Test
+                        <Play size={14} /> [ EXECUTE ]
                       </button>
                     )}
                     
                     {isRunning && (
-                       <div className="flex items-center gap-3 text-gold-400 font-mono text-sm bg-black/30 px-4 py-2 rounded">
-                         <Clock size={16} className="animate-spin" /> 
-                         <span>PROCESSING...</span>
+                       <div className="flex items-center gap-3 text-blueprint-300 text-xs bg-blueprint-950 px-4 py-2 border border-blueprint-500/30">
+                         <Clock size={14} className="animate-spin" /> 
+                         <span className="animate-pulse">ANALYZING...</span>
                        </div>
                     )}
                   </div>
@@ -102,11 +103,11 @@ export const Lab: React.FC<LabProps> = ({ tests, evidence, onRunTest, onComplete
 
                 {/* Result Section */}
                 {isCompleted && (
-                  <div className="border-t border-gray-300 bg-paper-200/50 p-4 pl-8">
+                  <div className="border-t border-success-900/30 bg-success-900/5 p-4 pl-6">
                     <div className="flex items-start gap-3">
-                      <div className="mt-1 font-mono text-xs font-bold text-gray-500 uppercase">Findings:</div>
-                      <div className="font-serif text-lg text-noir-900 italic">
-                        "{test.resultDescription}"
+                      <div className="mt-1 font-bold text-[10px] text-success-600 uppercase">RESULT:</div>
+                      <div className="text-sm text-success-300 font-bold tracking-wide">
+                        &gt; {test.resultDescription.toUpperCase()}
                       </div>
                     </div>
                   </div>

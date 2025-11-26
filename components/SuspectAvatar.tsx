@@ -6,7 +6,7 @@ interface SuspectAvatarProps {
   color?: string;
 }
 
-export const SuspectAvatar: React.FC<SuspectAvatarProps> = ({ id, className = "w-full h-full", color = "currentColor" }) => {
+export const SuspectAvatar: React.FC<SuspectAvatarProps> = ({ id, className = "w-full h-full", color = "#6495ED" }) => {
   const getPath = () => {
     switch (id) {
       case 'victoria':
