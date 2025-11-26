@@ -224,7 +224,7 @@ const App: React.FC = () => {
                  
                  <button 
                    onClick={() => changeTab('crime_scene')}
-                   className="bg-blueprint-500/20 text-blueprint-400 font-bold py-4 px-12 text-lg tracking-[0.2em] hover:bg-blueprint-500 hover:text-blueprint-950 hover:shadow-[0_0_20px_#6495ED] transition-all uppercase font-mono border border-blueprint-500 relative overflow-hidden group"
+                   className="mx-auto block bg-blueprint-500/20 text-blueprint-400 font-bold py-4 px-12 text-lg tracking-[0.2em] hover:bg-blueprint-500 hover:text-blueprint-950 hover:shadow-[0_0_20px_#6495ED] transition-all uppercase font-mono border border-blueprint-500 relative overflow-hidden group"
                  >
                    <span className="relative z-10">&gt; ACCESS_CRIME_SCENE</span>
                    <div className="absolute inset-0 bg-blueprint-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out -z-0"></div>
