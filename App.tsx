@@ -325,7 +325,7 @@ const App: React.FC = () => {
 
       {/* Mobile Bottom Nav (Fixed Sticky) */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-blueprint-950/95 backdrop-blur-md border-t border-blueprint-500/50 flex justify-between items-center px-4 py-2 z-50 shadow-[0_-5px_20px_rgba(0,0,0,0.5)] h-16">
-        {tabs.filter(t => t !== 'home').map(tab => ( // Skip home on mobile nav to save space
+        {tabs.map(tab => (
           <button
             key={tab}
             onClick={() => changeTab(tab)}
