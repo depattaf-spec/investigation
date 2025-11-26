@@ -176,53 +176,60 @@ const App: React.FC = () => {
     switch (gameState.currentTab) {
       case 'home':
         return (
-          <div className="flex flex-col items-center justify-center h-full p-8 text-center bg-blueprint-950 bg-grid-pattern relative">
-             <div className="absolute inset-0 bg-scanlines pointer-events-none opacity-20"></div>
-             <div className="z-10 max-w-4xl w-full border-y-2 border-blueprint-500/50 py-12 relative bg-blueprint-900/50 backdrop-blur-sm">
-               {/* Decorative corner markers */}
-               <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-blueprint-400"></div>
-               <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-blueprint-400"></div>
-               <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-blueprint-400"></div>
-               <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-blueprint-400"></div>
-
-               <h1 className="text-4xl md:text-6xl font-mono font-bold text-blueprint-400 mb-6 tracking-widest text-glow">THE MIDNIGHT MANUSCRIPT</h1>
-               <div className="w-32 h-1 bg-blueprint-500 mx-auto mb-8 shadow-[0_0_10px_#6495ED]"></div>
-               <p className="text-lg md:text-xl text-blueprint-300 max-w-2xl mx-auto mb-12 font-mono leading-relaxed">
-                 &gt; INITIALIZING CASE FILE #10-13...<br/>
-                 &gt; STATUS: UNSOLVED
-               </p>
+          // CHANGED: Outer container now handles scrolling (overflow-y-auto)
+          <div className="h-full w-full overflow-y-auto bg-blueprint-950 bg-grid-pattern relative custom-scrollbar">
+             {/* Background decorative elements */}
+             <div className="absolute inset-0 bg-scanlines pointer-events-none opacity-20 h-full w-full fixed"></div>
+             
+             {/* CHANGED: Inner container handles centering via min-h-full and has padding for mobile nav */}
+             <div className="min-h-full flex flex-col items-center justify-center p-8 text-center pb-32 md:pb-8">
                
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left max-w-3xl mx-auto mb-10">
-                 <div className="bg-blueprint-900 border border-blueprint-500/30 p-6 shadow-lg relative group hover:border-blueprint-500 transition-colors">
-                   <h3 className="text-blueprint-400 font-bold mb-4 font-mono uppercase tracking-widest text-sm border-b border-blueprint-500/30 pb-2">
-                     // CASE_DETAILS
-                   </h3>
-                   <div className="space-y-2 font-mono text-blueprint-100 text-sm">
-                      <p><span className="text-blueprint-500">VICTIM_ID:</span> Prof. Richard Ashford</p>
-                      <p><span className="text-blueprint-500">LOC:</span> Ashford Manor, Sector 4</p>
-                      <p><span className="text-blueprint-500">TIME_OF_DEATH:</span> 23:47</p>
+               <div className="z-10 max-w-4xl w-full border-y-2 border-blueprint-500/50 py-12 relative bg-blueprint-900/50 backdrop-blur-sm">
+                 {/* Decorative corner markers */}
+                 <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-blueprint-400"></div>
+                 <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-blueprint-400"></div>
+                 <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-blueprint-400"></div>
+                 <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-blueprint-400"></div>
+  
+                 <h1 className="text-4xl md:text-6xl font-mono font-bold text-blueprint-400 mb-6 tracking-widest text-glow">THE MIDNIGHT MANUSCRIPT</h1>
+                 <div className="w-32 h-1 bg-blueprint-500 mx-auto mb-8 shadow-[0_0_10px_#6495ED]"></div>
+                 <p className="text-lg md:text-xl text-blueprint-300 max-w-2xl mx-auto mb-12 font-mono leading-relaxed">
+                   &gt; INITIALIZING CASE FILE #10-13...<br/>
+                   &gt; STATUS: UNSOLVED
+                 </p>
+                 
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left max-w-3xl mx-auto mb-10">
+                   <div className="bg-blueprint-900 border border-blueprint-500/30 p-6 shadow-lg relative group hover:border-blueprint-500 transition-colors">
+                     <h3 className="text-blueprint-400 font-bold mb-4 font-mono uppercase tracking-widest text-sm border-b border-blueprint-500/30 pb-2">
+                       // CASE_DETAILS
+                     </h3>
+                     <div className="space-y-2 font-mono text-blueprint-100 text-sm">
+                        <p><span className="text-blueprint-500">VICTIM_ID:</span> Prof. Richard Ashford</p>
+                        <p><span className="text-blueprint-500">LOC:</span> Ashford Manor, Sector 4</p>
+                        <p><span className="text-blueprint-500">TIME_OF_DEATH:</span> 23:47</p>
+                     </div>
+                   </div>
+                   <div className="bg-blueprint-900 border border-blueprint-500/30 p-6 shadow-lg relative group hover:border-blueprint-500 transition-colors">
+                     <h3 className="text-blueprint-400 font-bold mb-4 font-mono uppercase tracking-widest text-sm border-b border-blueprint-500/30 pb-2">
+                       // DIRECTIVES
+                     </h3>
+                     <ul className="text-blueprint-100 space-y-2 font-mono text-sm">
+                       <li>&gt; SCAN CRIME SCENE</li>
+                       <li>&gt; INTERROGATE SUBJECTS</li>
+                       <li>&gt; QUERY BACKGROUND DB</li>
+                       <li>&gt; ANALYZE FORENSICS</li>
+                     </ul>
                    </div>
                  </div>
-                 <div className="bg-blueprint-900 border border-blueprint-500/30 p-6 shadow-lg relative group hover:border-blueprint-500 transition-colors">
-                   <h3 className="text-blueprint-400 font-bold mb-4 font-mono uppercase tracking-widest text-sm border-b border-blueprint-500/30 pb-2">
-                     // DIRECTIVES
-                   </h3>
-                   <ul className="text-blueprint-100 space-y-2 font-mono text-sm">
-                     <li>&gt; SCAN CRIME SCENE</li>
-                     <li>&gt; INTERROGATE SUBJECTS</li>
-                     <li>&gt; QUERY BACKGROUND DB</li>
-                     <li>&gt; ANALYZE FORENSICS</li>
-                   </ul>
-                 </div>
+                 
+                 <button 
+                   onClick={() => changeTab('crime_scene')}
+                   className="bg-blueprint-500/20 text-blueprint-400 font-bold py-4 px-12 text-lg tracking-[0.2em] hover:bg-blueprint-500 hover:text-blueprint-950 hover:shadow-[0_0_20px_#6495ED] transition-all uppercase font-mono border border-blueprint-500 relative overflow-hidden group"
+                 >
+                   <span className="relative z-10">&gt; ACCESS_CRIME_SCENE</span>
+                   <div className="absolute inset-0 bg-blueprint-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out -z-0"></div>
+                 </button>
                </div>
-               
-               <button 
-                 onClick={() => changeTab('crime_scene')}
-                 className="bg-blueprint-500/20 text-blueprint-400 font-bold py-4 px-12 text-lg tracking-[0.2em] hover:bg-blueprint-500 hover:text-blueprint-950 hover:shadow-[0_0_20px_#6495ED] transition-all uppercase font-mono border border-blueprint-500 relative overflow-hidden group"
-               >
-                 <span className="relative z-10">&gt; ACCESS_CRIME_SCENE</span>
-                 <div className="absolute inset-0 bg-blueprint-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out -z-0"></div>
-               </button>
              </div>
           </div>
         );
@@ -324,7 +331,7 @@ const App: React.FC = () => {
       </main>
 
       {/* Mobile Bottom Nav (Fixed Sticky) */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-blueprint-950/95 backdrop-blur-md border-t border-blueprint-500/50 flex justify-between items-center px-4 py-2 z-50 shadow-[0_-5px_20px_rgba(0,0,0,0.5)] h-16">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-blueprint-950/95 backdrop-blur-md border-t border-blueprint-500/50 flex justify-between items-center px-4 py-2 z-50 shadow-[0_-5px_20px_rgba(0,0,0,0.5)] h-16 safe-area-bottom">
         {tabs.map(tab => (
           <button
             key={tab}
