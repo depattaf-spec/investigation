@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Suspect, Evidence } from '../types';
 import { BACKGROUND_RESULTS } from '../constants';
 import { Search, FileText, Check, Loader2, User } from 'lucide-react';
+import { SuspectAvatar } from './SuspectAvatar';
 
 interface BackgroundResearchProps {
   suspects: Suspect[];
@@ -13,10 +14,8 @@ export const BackgroundResearch: React.FC<BackgroundResearchProps> = ({ suspects
   const [researchingId, setResearchingId] = useState<string | null>(null);
   const [completedSearches, setCompletedSearches] = useState<string[]>([]);
   
-  // Initialize completed searches based on collected evidence to persist state roughly
-  // This is a simplification; ideally we store 'researched IDs' in gameState
   useEffect(() => {
-    // Logic to visually mark as researched if related evidence is already found
+    // Ideally sync with actual evidence state
   }, []);
 
   const handleResearch = (suspectId: string) => {
@@ -53,19 +52,39 @@ export const BackgroundResearch: React.FC<BackgroundResearchProps> = ({ suspects
               return (
                 <div 
                   key={suspect.id}
-                  className={`relative group bg-paper-100 p-3 shadow-lg transform transition-all duration-300 ${isProcessing ? 'scale-105 z-10' : 'hover:-translate-y-1 hover:rotate-1'}`}
+                  className={`relative group bg-paper-200 p-4 shadow-lg transform transition-all duration-300 overflow-hidden ${isProcessing ? 'scale-105 z-10' : 'hover:-translate-y-1 hover:rotate-1'}`}
                 >
-                  {/* Tape Effect */}
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-8 bg-yellow-100/80 rotate-1 shadow-sm opacity-80 backdrop-blur-sm z-20"></div>
+                  {/* Paper Texture SVG Overlay */}
+                  <div className="absolute inset-0 opacity-10 pointer-events-none">
+                     <svg width="100%" height="100%">
+                        <filter id="noise">
+                            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch" />
+                        </filter>
+                        <rect width="100%" height="100%" filter="url(#noise)" opacity="0.5"/>
+                     </svg>
+                  </div>
 
-                  <div className="border border-gray-300 h-full flex flex-col bg-white">
-                    <div className="relative h-48 overflow-hidden grayscale contrast-125 sepia-[.3]">
-                      <img src={suspect.avatar} alt={suspect.name} className="w-full h-full object-cover" />
+                  {/* Top Secret Stamp (SVG) */}
+                  <div className="absolute top-2 right-2 opacity-30 transform rotate-12">
+                     <svg width="80" height="40" viewBox="0 0 100 50">
+                        <rect x="2" y="2" width="96" height="46" rx="5" stroke="red" strokeWidth="2" fill="none" strokeDasharray="4,2"/>
+                        <text x="50" y="32" textAnchor="middle" fill="red" fontFamily="monospace" fontSize="16" fontWeight="bold">CONFIDENTIAL</text>
+                     </svg>
+                  </div>
+
+                  <div className="border border-gray-400 h-full flex flex-col bg-white/50 relative z-10">
+                    <div className="relative h-48 bg-gray-200 border-b border-gray-400 p-4 flex items-center justify-center">
+                      <div className="w-32 h-32 opacity-80">
+                         <SuspectAvatar id={suspect.id} color="#2d2d2d" />
+                      </div>
+
                       {isResearched && (
-                         <div className="absolute inset-0 bg-green-900/30 flex items-center justify-center backdrop-blur-[1px]">
-                           <div className="border-4 border-green-700 text-green-800 font-bold text-xl px-4 py-2 uppercase tracking-widest -rotate-12 bg-green-100/90 shadow-xl">
-                             Verified
-                           </div>
+                         <div className="absolute inset-0 bg-green-900/10 flex items-center justify-center backdrop-blur-[1px]">
+                           {/* SVG Stamp Verified */}
+                           <svg width="140" height="60" viewBox="0 0 140 60" className="transform -rotate-12 drop-shadow-xl">
+                              <rect x="5" y="5" width="130" height="50" rx="4" stroke="#15803d" strokeWidth="3" fill="rgba(220, 252, 231, 0.9)" />
+                              <text x="70" y="40" textAnchor="middle" fill="#15803d" fontFamily="serif" fontSize="24" fontWeight="bold">VERIFIED</text>
+                           </svg>
                          </div>
                       )}
                     </div>
@@ -107,8 +126,8 @@ export const BackgroundResearch: React.FC<BackgroundResearchProps> = ({ suspects
           </div>
 
           <div className="mt-12 p-4 bg-noir-800 border-l-4 border-gold-500 text-gray-400 font-mono text-sm">
-            <p>> SYSTEM NOTE: Processing background checks utilizes precinct resources. Expect delays.</p>
-            <p>> Searching records may reveal financial debts, criminal history, or verify alibis.</p>
+            <p>&gt; SYSTEM NOTE: Processing background checks utilizes precinct resources. Expect delays.</p>
+            <p>&gt; Searching records may reveal financial debts, criminal history, or verify alibis.</p>
           </div>
         </div>
       </div>

@@ -20,7 +20,6 @@ export interface Suspect {
   name: string;
   role: string;
   age: number;
-  avatar: string;
   description: string;
   motive: string; // Hidden initially
   alibi: string;

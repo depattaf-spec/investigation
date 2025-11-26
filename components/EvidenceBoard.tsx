@@ -39,7 +39,13 @@ export const EvidenceBoard: React.FC<EvidenceBoardProps> = ({ evidence }) => {
         
         {/* Title Card */}
         <div className="col-span-full mb-4 flex justify-center">
-            <div className="bg-paper-100 px-8 py-4 shadow-[0_5px_15px_rgba(0,0,0,0.5)] transform -rotate-1 border border-gray-400">
+            <div className="bg-paper-100 px-8 py-4 shadow-[0_5px_15px_rgba(0,0,0,0.5)] transform -rotate-1 border border-gray-400 relative">
+                {/* SVG Tape */}
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 opacity-80">
+                   <svg width="100" height="30" viewBox="0 0 100 30">
+                      <rect x="0" y="0" width="100" height="30" fill="rgba(255,255,255,0.4)" transform="rotate(-2)" />
+                   </svg>
+                </div>
                 <h1 className="font-serif text-3xl text-black font-bold tracking-widest uppercase border-b-4 border-black pb-1">Case #10-13</h1>
             </div>
         </div>
@@ -55,17 +61,20 @@ export const EvidenceBoard: React.FC<EvidenceBoardProps> = ({ evidence }) => {
           collectedEvidence.map((item, index) => {
             // Random rotation for natural look
             const rotation = index % 2 === 0 ? 'rotate-1' : '-rotate-1';
-            const offset = (index % 3) * 10;
             
             return (
             <div 
               key={item.id} 
               className={`bg-paper-100 p-4 shadow-[2px_5px_10px_rgba(0,0,0,0.3)] transition-transform hover:scale-105 hover:z-20 relative flex flex-col min-h-[220px] max-w-[300px] mx-auto w-full ${rotation}`}
             >
-              {/* Pushpin */}
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
-                  <div className="w-4 h-4 rounded-full bg-red-700 shadow-[2px_2px_2px_rgba(0,0,0,0.3)] border border-red-900 ring-1 ring-black/20"></div>
-                  <div className="w-1 h-3 bg-black/30 mx-auto mt-[-2px] blur-[1px]"></div>
+              {/* SVG Pushpin */}
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-20">
+                 <svg width="20" height="40" viewBox="0 0 20 40">
+                    <circle cx="10" cy="10" r="6" fill="#b91c1c" stroke="#7f1d1d" strokeWidth="1" />
+                    <path d="M10 16 L10 35" stroke="black" strokeWidth="1" strokeOpacity="0.5" />
+                    {/* Shadow */}
+                    <ellipse cx="12" cy="38" rx="2" ry="1" fill="black" opacity="0.3" />
+                 </svg>
               </div>
               
               {/* Card Content */}
@@ -78,6 +87,15 @@ export const EvidenceBoard: React.FC<EvidenceBoardProps> = ({ evidence }) => {
               
               <div className="flex-grow relative">
                  <p className="font-mono text-sm text-gray-800 leading-snug">{item.description}</p>
+                 
+                 {/* Decorative coffee stain SVG for some cards */}
+                 {index % 3 === 0 && (
+                   <div className="absolute bottom-0 right-0 opacity-10 pointer-events-none transform translate-x-4 translate-y-4">
+                     <svg width="60" height="60" viewBox="0 0 60 60">
+                        <circle cx="30" cy="30" r="25" fill="none" stroke="#5c4033" strokeWidth="4" strokeDasharray="40,20" />
+                     </svg>
+                   </div>
+                 )}
               </div>
               
               {/* Footer Tag */}

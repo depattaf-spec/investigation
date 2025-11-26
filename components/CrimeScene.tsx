@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Evidence } from '../types';
-import { Search, MapPin, AlertCircle } from 'lucide-react';
+import { Search, MapPin, AlertCircle, Maximize2 } from 'lucide-react';
 import { Modal } from './Modal';
 
 interface CrimeSceneProps {
@@ -25,9 +25,9 @@ export const CrimeScene: React.FC<CrimeSceneProps> = ({ evidence, onCollectEvide
   };
 
   return (
-    <div className="h-full flex flex-col p-4 md:p-6 bg-noir-950 bg-noise">
-      {/* Header */}
-      <div className="flex justify-between items-end mb-4 border-b-2 border-white/20 pb-4">
+    <div className="h-full flex flex-col p-4 md:p-6 bg-noir-950 bg-noise relative">
+      {/* Blueprint Header */}
+      <div className="flex justify-between items-end mb-4 border-b-2 border-white/20 pb-4 z-10">
         <div>
            <h2 className="text-2xl md:text-3xl font-serif font-bold text-paper-200 tracking-wider">CRIME SCENE: LIBRARY</h2>
            <div className="flex items-center gap-3 mt-1">
@@ -42,65 +42,78 @@ export const CrimeScene: React.FC<CrimeSceneProps> = ({ evidence, onCollectEvide
       </div>
 
       {/* Blueprint Container */}
-      <div className="relative flex-grow border-4 border-white/10 shadow-2xl overflow-hidden rounded bg-[#1a2332] relative group cursor-crosshair">
+      <div className="relative flex-grow border-4 border-[#2a3b55] shadow-[inset_0_0_50px_rgba(0,0,0,0.5)] overflow-hidden rounded-sm bg-[#1a2332] group cursor-crosshair">
         
         {/* Grid Background */}
-        <div className="absolute inset-0 opacity-10" 
+        <div className="absolute inset-0 opacity-20" 
              style={{ 
-               backgroundImage: 'linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)', 
-               backgroundSize: '20px 20px' 
+               backgroundImage: 'linear-gradient(rgba(100,149,237,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(100,149,237,0.3) 1px, transparent 1px)', 
+               backgroundSize: '40px 40px' 
              }}>
         </div>
 
         {/* Blueprint SVG */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-80">
-          <svg viewBox="0 0 800 600" className="w-full h-full p-8" preserveAspectRatio="xMidYMid meet">
-             {/* Definitions for patterns */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <svg viewBox="0 0 800 600" className="w-full h-full p-4 md:p-12" preserveAspectRatio="xMidYMid meet">
              <defs>
-               <pattern id="diagonalHatch" width="10" height="10" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
-                 <line x1="0" y1="0" x2="0" y2="10" style={{stroke: 'white', strokeWidth: 1, opacity: 0.1}} />
+               <pattern id="hatch" width="10" height="10" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+                 <line x1="0" y1="0" x2="0" y2="10" style={{stroke: '#6495ED', strokeWidth: 1, opacity: 0.3}} />
                </pattern>
              </defs>
 
-             {/* Floor - Rug */}
-             <rect x="250" y="150" width="300" height="300" fill="none" stroke="white" strokeWidth="1" strokeDasharray="5,5" opacity="0.3" />
-
-             {/* Walls */}
-             <path d="M50 50 L750 50 L750 550 L50 550 Z" fill="none" stroke="white" strokeWidth="4" />
+             {/* Floor Plan Outline */}
+             <path d="M50 50 L750 50 L750 550 L50 550 Z" fill="none" stroke="#6495ED" strokeWidth="4" />
              
              {/* Window Top */}
-             <rect x="350" y="45" width="100" height="10" fill="#1a2332" stroke="white" strokeWidth="2" />
-             <path d="M350 45 L360 30 M450 45 L440 30" stroke="white" strokeWidth="1" opacity="0.5" />
+             <path d="M350 50 L350 40 L450 40 L450 50" fill="none" stroke="#6495ED" strokeWidth="2" />
+             <path d="M350 50 Q 400 20 450 50" fill="none" stroke="#6495ED" strokeWidth="1" strokeDasharray="4 2" />
+             <text x="385" y="35" fill="#6495ED" fontSize="10" fontFamily="monospace" opacity="0.8">WINDOW</text>
 
              {/* Door Bottom */}
-             <path d="M150 550 L150 500 A 50 50 0 0 1 200 550" fill="none" stroke="white" strokeWidth="2" strokeDasharray="4 2"/>
-             <rect x="150" y="545" width="50" height="10" fill="#1a2332" />
+             <path d="M150 550 L150 500 A 50 50 0 0 1 250 550" fill="none" stroke="#6495ED" strokeWidth="2" strokeDasharray="5,5"/>
+             <text x="160" y="530" fill="#6495ED" fontSize="10" fontFamily="monospace" opacity="0.8">ENTRANCE</text>
 
              {/* Bookshelves Left */}
-             <rect x="55" y="100" width="40" height="400" fill="url(#diagonalHatch)" stroke="white" strokeWidth="2" />
-             <text x="65" y="300" fill="white" fontSize="12" fontFamily="monospace" opacity="0.5" transform="rotate(-90 65,300)">RARE BOOKS</text>
+             <rect x="60" y="100" width="30" height="400" fill="url(#hatch)" stroke="#6495ED" strokeWidth="2" />
+             <text x="75" y="300" fill="#6495ED" fontSize="12" fontFamily="monospace" opacity="0.8" transform="rotate(-90 75,300)">LIBRARY ARCHIVE</text>
 
              {/* Bookshelves Top Right */}
-             <rect x="600" y="55" width="145" height="40" fill="url(#diagonalHatch)" stroke="white" strokeWidth="2" />
+             <rect x="600" y="60" width="140" height="30" fill="url(#hatch)" stroke="#6495ED" strokeWidth="2" />
 
-             {/* Main Desk */}
-             <rect x="450" y="200" width="140" height="80" fill="#1a2332" stroke="white" strokeWidth="2" />
-             <rect x="460" y="190" width="40" height="20" fill="#1a2332" stroke="white" strokeWidth="1" opacity="0.5" /> {/* Chair */}
-             <text x="470" y="245" fill="white" fontSize="10" fontFamily="monospace" opacity="0.7">PROF. DESK</text>
+             {/* Fireplace Right */}
+             <path d="M750 250 L720 250 L720 350 L750 350" fill="none" stroke="#6495ED" strokeWidth="2" />
+             <rect x="730" y="260" width="20" height="80" fill="url(#hatch)" stroke="none" />
+             <text x="705" y="300" fill="#6495ED" fontSize="10" fontFamily="monospace" opacity="0.8" transform="rotate(-90 705,300)">FIREPLACE</text>
+
+             {/* Main Rug */}
+             <rect x="250" y="150" width="300" height="300" rx="10" fill="none" stroke="#6495ED" strokeWidth="1" strokeDasharray="2,2" opacity="0.4" />
+
+             {/* Main Desk Area */}
+             <g transform="translate(450, 200)">
+               <rect x="0" y="0" width="120" height="60" fill="#1a2332" stroke="#6495ED" strokeWidth="2" />
+               <path d="M10 10 L110 10 M10 50 L110 50" stroke="#6495ED" strokeWidth="1" opacity="0.5" />
+               <text x="35" y="35" fill="#6495ED" fontSize="10" fontFamily="monospace">DESK</text>
+               {/* Chair */}
+               <path d="M40 -10 L80 -10 L80 0 L40 0 Z" fill="none" stroke="#6495ED" strokeWidth="1" />
+             </g>
 
              {/* Side Table */}
-             <circle cx="600" cy="300" r="25" fill="#1a2332" stroke="white" strokeWidth="2" />
+             <circle cx="620" cy="300" r="25" fill="#1a2332" stroke="#6495ED" strokeWidth="2" />
              
-             {/* Fireplace Right */}
-             <rect x="740" y="250" width="10" height="100" fill="white" stroke="none" opacity="0.5" />
-             <path d="M720 250 L720 350" stroke="white" strokeWidth="1" strokeDasharray="2,2" />
-
-             {/* Body Outline - Abstract */}
-             <g transform="translate(420, 350) rotate(-15)">
-                <path d="M0,0 Q10,-30 30,-30 T60,0 T60,60 T30,90 T0,60 Z" fill="none" stroke="white" strokeWidth="2" strokeDasharray="5,5" opacity="0.6" />
-                <circle cx="30" cy="-40" r="15" fill="none" stroke="white" strokeWidth="2" strokeDasharray="5,5" opacity="0.6" />
-                <text x="0" y="20" fill="white" fontSize="10" fontFamily="monospace" opacity="0.4">VICTIM</text>
+             {/* Body Position Outline (Chalk outline style) */}
+             <g transform="translate(380, 320) rotate(-10)">
+                <path d="M0,0 Q20,-40 50,-40 T100,0 T100,80 T50,120 T0,80 Z" fill="none" stroke="white" strokeWidth="2" strokeDasharray="5,3" opacity="0.7" />
+                <circle cx="50" cy="-50" r="20" fill="none" stroke="white" strokeWidth="2" strokeDasharray="5,3" opacity="0.7" />
+                <line x1="50" y1="-30" x2="50" y2="0" stroke="white" strokeWidth="2" strokeDasharray="5,3" opacity="0.7" />
+                <text x="10" y="50" fill="white" fontSize="12" fontFamily="monospace" opacity="0.8">VICTIM</text>
              </g>
+
+             {/* Measurement Lines for Aesthetic */}
+             <line x1="50" y1="580" x2="750" y2="580" stroke="#6495ED" strokeWidth="1" opacity="0.5" />
+             <line x1="50" y1="575" x2="50" y2="585" stroke="#6495ED" strokeWidth="1" opacity="0.5" />
+             <line x1="750" y1="575" x2="750" y2="585" stroke="#6495ED" strokeWidth="1" opacity="0.5" />
+             <text x="380" y="590" fill="#6495ED" fontSize="10" fontFamily="monospace" opacity="0.5">12.5 meters</text>
+
           </svg>
         </div>
 
@@ -109,42 +122,39 @@ export const CrimeScene: React.FC<CrimeSceneProps> = ({ evidence, onCollectEvide
           <button
             key={item.id}
             onClick={() => handleItemClick(item)}
-            className={`absolute transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 group z-10
+            className={`absolute transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 group z-20
               ${item.isCollected 
-                ? 'opacity-60 grayscale' 
+                ? 'opacity-50' 
                 : 'opacity-100 hover:scale-110'
               }`}
             style={{ left: `${item.x}%`, top: `${item.y}%` }}
           >
-            {/* Marker Graphic */}
-            <div className={`relative flex items-center justify-center
+            <div className={`relative flex items-center justify-center rounded-full
               ${item.isCollected 
-                ? 'w-6 h-6 bg-green-900/80 border border-green-500 rounded-sm' 
-                : 'w-8 h-8 rounded-full border-2 border-gold-400 bg-gold-900/50 shadow-[0_0_15px_rgba(197,160,40,0.8)] animate-pulse'
+                ? 'w-6 h-6 bg-green-900/40 border border-green-500' 
+                : 'w-8 h-8 border-2 border-gold-400 bg-gold-900/20 shadow-[0_0_15px_rgba(255,215,0,0.6)] animate-pulse'
               }`}>
               
               {item.isCollected ? (
-                <span className="text-green-400 text-[10px] font-mono">✓</span>
+                <span className="text-green-500 text-[10px] font-mono">✓</span>
               ) : (
-                <div className="w-2 h-2 bg-gold-400 rounded-full"></div>
-              )}
-
-              {/* Connecting line to label (only visible on hover for uncollected) */}
-              {!item.isCollected && (
-                <div className="absolute w-12 h-[1px] bg-gold-400/50 -right-12 top-1/2 hidden group-hover:block"></div>
+                <div className="w-1 h-1 bg-gold-400 rounded-full"></div>
               )}
             </div>
 
-            {/* Label Tooltip */}
-            <div className={`absolute left-full ml-4 top-1/2 -translate-y-1/2 bg-black/80 border-l-2 border-gold-400 px-3 py-1 text-xs text-white font-mono whitespace-nowrap z-20 pointer-events-none transition-all duration-300
-              ${item.isCollected ? 'opacity-0' : 'opacity-0 group-hover:opacity-100'}`}>
-              EVIDENCE #{item.id.substring(0,3).toUpperCase()}
+            {/* Hover Tooltip */}
+            <div className={`absolute left-full ml-2 top-1/2 -translate-y-1/2 bg-[#0a0a0a] border border-gold-500 px-3 py-1 text-xs text-gold-100 font-mono whitespace-nowrap z-30 pointer-events-none transition-all duration-200 shadow-xl
+              ${item.isCollected ? 'hidden' : 'opacity-0 group-hover:opacity-100'}`}>
+              <div className="flex flex-col text-left">
+                <span className="font-bold uppercase tracking-widest text-[10px] text-gold-500">Evidence Signal</span>
+                <span>{item.name}</span>
+              </div>
             </div>
           </button>
         ))}
         
-        {/* Flashlight/Vignette Effect */}
-        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_50%,transparent_15%,rgba(0,0,0,0.4)_40%,rgba(10,10,10,0.95)_100%)]"></div>
+        {/* Vignette Overlay */}
+        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_50%,transparent_40%,rgba(10,15,25,0.8)_100%)]"></div>
 
       </div>
 
@@ -157,10 +167,10 @@ export const CrimeScene: React.FC<CrimeSceneProps> = ({ evidence, onCollectEvide
         <div className="flex flex-col gap-6">
           <div className="bg-noir-950 p-8 rounded border border-noir-700 shadow-inner flex justify-center items-center min-h-[200px] relative overflow-hidden group">
              {/* Decorative grid in modal image */}
-             <div className="absolute inset-0 opacity-20" style={{backgroundImage: 'radial-gradient(#444 1px, transparent 1px)', backgroundSize: '10px 10px'}}></div>
+             <div className="absolute inset-0 opacity-10" style={{backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '15px 15px'}}></div>
              
-             <div className="relative z-10 p-6 border-2 border-dashed border-gray-600 rounded-full group-hover:border-gold-500/50 transition-colors">
-                 <Search size={64} className="text-gray-500 group-hover:text-gold-500 transition-colors" />
+             <div className="relative z-10 p-6 border-2 border-dashed border-gray-600 rounded-full group-hover:border-gold-500/50 transition-colors bg-black/50">
+                 <Search size={64} className="text-gray-400 group-hover:text-gold-500 transition-colors" />
              </div>
           </div>
           

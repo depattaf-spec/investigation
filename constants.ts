@@ -6,7 +6,6 @@ export const INITIAL_SUSPECTS: Suspect[] = [
     name: 'Victoria Ashford',
     role: 'The Daughter',
     age: 42,
-    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80',
     description: 'Nervous, well-dressed. Stands to inherit the estate.',
     motive: 'Inheritance and debts',
     alibi: 'In drawing room with Margaret',
@@ -17,7 +16,6 @@ export const INITIAL_SUSPECTS: Suspect[] = [
     name: 'Dr. James Whitmore',
     role: 'The Colleague',
     age: 55,
-    avatar: 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=400&q=80',
     description: 'Defensive intellectual. Sweats when nervous.',
     motive: 'Professional rivalry and forgery exposure',
     alibi: 'Smoking in garden',
@@ -28,7 +26,6 @@ export const INITIAL_SUSPECTS: Suspect[] = [
     name: 'Margaret Chen',
     role: 'The Broker',
     age: 38,
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80',
     description: 'Smooth, charming art dealer.',
     motive: 'Illegal manuscript sale commission',
     alibi: 'In drawing room with Victoria',
@@ -39,7 +36,6 @@ export const INITIAL_SUSPECTS: Suspect[] = [
     name: 'Thomas Garrett',
     role: 'The Butler',
     age: 51,
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
     description: 'Formal, proper, increasingly agitated.',
     motive: 'Revenge for affair and firing of wife',
     alibi: 'Preparing tea in kitchen',
@@ -50,7 +46,6 @@ export const INITIAL_SUSPECTS: Suspect[] = [
     name: 'Olivia Hart',
     role: 'The Assistant',
     age: 29,
-    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80',
     description: 'Bitter, intelligent graduate student.',
     motive: 'Research theft',
     alibi: 'Left manor at 11:00 PM',
@@ -60,17 +55,18 @@ export const INITIAL_SUSPECTS: Suspect[] = [
 
 export const INITIAL_EVIDENCE: Evidence[] = [
   // Crime Scene Items - Coordinates mapped to new SVG layout (0-100%)
-  { id: 'body', name: 'Victim Body', description: 'Prof. Ashford found slumped in chair. No external wounds.', category: 'physical', location: 'Library - Center Rug', isCollected: false, x: 55, y: 55 },
-  { id: 'decanter', name: 'Port Decanter', description: 'Crystal decanter, half empty. Smells slightly metallic.', category: 'physical', location: 'Side Table', isCollected: false, x: 72, y: 45 },
+  { id: 'body', name: 'Victim Body', description: 'Prof. Ashford found slumped in chair. No external wounds.', category: 'physical', location: 'Library - Center Rug', isCollected: false, x: 45, y: 50 },
+  { id: 'decanter', name: 'Port Decanter', description: 'Crystal decanter, half empty. Smells slightly metallic.', category: 'physical', location: 'Side Table', isCollected: false, x: 73, y: 48 },
   { id: 'teacup', name: 'Unused Teacup', description: 'Fine china, completely dry and clean.', category: 'physical', location: 'Main Desk', isCollected: false, x: 62, y: 35 },
-  { id: 'desk_compartment', name: 'Hidden Letters', description: 'Love letters between Richard and the Cook (Thomas\'s wife).', category: 'document', location: 'Desk Drawer (Hidden)', isCollected: false, x: 65, y: 38 },
+  { id: 'desk_compartment', name: 'Hidden Letters', description: 'Love letters between Richard and the Cook (Thomas\'s wife).', category: 'document', location: 'Desk Drawer (Hidden)', isCollected: false, x: 55, y: 35 },
   { id: 'calendar', name: 'Desk Calendar', description: 'Entry at 4:00 PM: "Fire Mrs. Garrett".', category: 'document', location: 'Main Desk', isCollected: false, x: 58, y: 32 },
-  { id: 'window', name: 'Open Window', description: 'Window latch is broken. Muddy footprint outside.', category: 'physical', location: 'North Window', isCollected: false, x: 50, y: 5 },
+  { id: 'window', name: 'Open Window', description: 'Window latch is broken. Muddy footprint outside.', category: 'physical', location: 'North Window', isCollected: false, x: 50, y: 8 },
   { id: 'poison_book', name: 'Poison History Book', description: 'Borrowed by Dr. Whitmore earlier.', category: 'physical', location: 'West Bookshelf', isCollected: false, x: 8, y: 40 },
   
   // Testimony / Lab Results / Background Checks (Unlockable)
   { id: 'fingerprint_report', name: 'Fingerprint Analysis', description: 'Thomas\'s prints found on the decanter.', category: 'forensic', isCollected: false },
   { id: 'tox_report', name: 'Toxicology Report', description: 'Cause of death: Liquid Nicotine poisoning.', category: 'forensic', isCollected: false },
+  { id: 'thomas_gloves', name: 'White Cotton Gloves', description: 'Taken from Thomas\'s quarters. Stained.', category: 'physical', isCollected: false },
   { id: 'luminol_gloves', name: 'Butler\'s Gloves Test', description: 'Traces of nicotine found on Thomas\'s white gloves.', category: 'forensic', isCollected: false },
   
   { id: 'kitchen_log', name: 'Kitchen Log & Staff', description: 'Staff confirm Thomas was NOT in the kitchen at 11:35 PM.', category: 'testimony', isCollected: false },
@@ -117,10 +113,10 @@ export const SUSPECT_DIALOGUES: Record<string, DialogueOption[]> = {
 // Map suspect ID to evidence that is unlocked when researching them
 export const BACKGROUND_RESULTS: Record<string, string[]> = {
   victoria: ['financial_report'],
-  thomas: ['kitchen_log', 'theft_record', 'garden_inventory'],
+  thomas: ['kitchen_log', 'theft_record', 'garden_inventory', 'thomas_gloves'], // Added gloves here so they can be found!
   james: ['forgery_scandal'],
-  margaret: [], // Clean record
-  olivia: [] // Clean record
+  margaret: [], 
+  olivia: [] 
 };
 
 export const ACCUSATION_OPTIONS = {

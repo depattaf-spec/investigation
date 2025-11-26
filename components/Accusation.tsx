@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Suspect, Evidence, AccusationData } from '../types';
 import { ACCUSATION_OPTIONS, SOLUTION } from '../constants';
 import { Gavel, AlertOctagon, CheckCircle2 } from 'lucide-react';
+import { SuspectAvatar } from './SuspectAvatar';
 
 interface AccusationProps {
   suspects: Suspect[];
@@ -99,7 +100,9 @@ export const Accusation: React.FC<AccusationProps> = ({ suspects, evidence, onSu
                       : 'border-transparent hover:border-gray-300 opacity-60 grayscale hover:grayscale-0'
                   }`}
                 >
-                  <img src={s.avatar} alt={s.name} className="w-20 h-20 object-cover shadow-sm" />
+                  <div className="w-20 h-20 bg-gray-200 p-1">
+                     <SuspectAvatar id={s.id} color="#000" />
+                  </div>
                   <span className="text-xs font-bold font-serif text-center">{s.name}</span>
                 </button>
               ))}
