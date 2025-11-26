@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="https://lucide.dev/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Midnight Manuscript</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              noir: {
+                950: '#0a0a0a',
+                900: '#121212',
+                800: '#1e1e1e',
+                700: '#2d2d2d',
+              },
+              paper: {
+                100: '#fdfbf7',
+                200: '#f0e6d2',
+                300: '#e6d5b8',
+                900: '#5c5040',
+              },
+              gold: {
+                400: '#c5a028',
+                500: '#b08d1e',
+                600: '#8e7011',
+              },
+              blood: {
+                600: '#8a0303',
+                700: '#600202',
+              }
+            },
+            fontFamily: {
+              serif: ['"Playfair Display"', 'serif'],
+              sans: ['"Lato"', 'sans-serif'],
+              mono: ['"Special Elite"', 'monospace'],
+            },
+            backgroundImage: {
+              'noise': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.05%22/%3E%3C/svg%3E')",
+              'vignette': 'radial-gradient(circle, transparent 40%, rgba(0,0,0,0.8) 100%)',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background-color: #0a0a0a;
+        color: #e5e5e5;
+      }
+      .bg-noise {
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+      }
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #121212; 
+        border-left: 1px solid #333;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #444; 
+        border: 1px solid #222;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #c5a028; 
+      }
+      .paper-shadow {
+        box-shadow: 1px 1px 5px rgba(0,0,0,0.4), 10px 10px 20px rgba(0,0,0,0.2);
+      }
+      .vintage-border {
+        border: 1px solid #c5a028;
+        outline: 2px solid #121212;
+        outline-offset: -4px;
+      }
+      .sepia-img {
+        filter: sepia(0.4) contrast(1.1) brightness(0.9);
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root" class="h-screen w-screen overflow-hidden"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
