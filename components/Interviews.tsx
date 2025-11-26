@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Suspect, DialogueOption, Evidence } from '../types';
-import { MessageSquare, Lock, Unlock, User, ChevronRight, FileText } from 'lucide-react';
+import { MessageSquare, Lock, Unlock, User, ChevronRight, FileText, ArrowLeft } from 'lucide-react';
 import { SuspectAvatar } from './SuspectAvatar';
 
 interface InterviewsProps {
@@ -39,9 +39,9 @@ export const Interviews: React.FC<InterviewsProps> = ({
   };
 
   return (
-    <div className="flex h-full bg-noir-950 text-gray-200">
-      {/* Sidebar - Dossier List */}
-      <div className="w-64 flex-shrink-0 bg-[#0c0c0c] border-r border-gray-800 flex flex-col z-20 shadow-2xl">
+    <div className="flex flex-col md:flex-row h-full bg-noir-950 text-gray-200">
+      {/* Sidebar - Dossier List (Hidden on mobile if a suspect is selected) */}
+      <div className={`${activeSuspectId ? 'hidden md:flex' : 'flex'} w-full md:w-64 flex-shrink-0 bg-[#0c0c0c] border-r border-gray-800 flex-col z-20 shadow-2xl`}>
         <div className="p-5 border-b border-gray-800 bg-[#080808]">
           <h2 className="text-xs font-bold text-gold-500 uppercase tracking-[0.2em] font-sans flex items-center gap-2">
             <FileText size={14} /> Suspect Files
@@ -72,14 +72,15 @@ export const Interviews: React.FC<InterviewsProps> = ({
                 </div>
 
                 {locked > 0 && <Lock size={10} className="text-gold-600" />}
+                <ChevronRight size={16} className="text-gray-700 md:hidden" />
               </button>
             );
           })}
         </div>
       </div>
 
-      {/* Main Content - Transcript */}
-      <div className="flex-grow flex flex-col h-full bg-[#fdfbf7] relative text-black">
+      {/* Main Content - Transcript (Hidden on mobile if no suspect selected) */}
+      <div className={`${!activeSuspectId ? 'hidden md:flex' : 'flex'} flex-grow flex-col h-full bg-[#fdfbf7] relative text-black`}>
         {/* Paper Texture */}
         <div className="absolute inset-0 opacity-50 pointer-events-none mix-blend-multiply" 
              style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/cream-paper.png")` }}></div>
@@ -87,40 +88,51 @@ export const Interviews: React.FC<InterviewsProps> = ({
         {activeSuspect ? (
           <div className="flex flex-col h-full z-10">
             {/* Dossier Header */}
-            <div className="p-6 border-b border-gray-300 bg-white/80 backdrop-blur-sm shadow-sm flex items-start gap-6">
-              <div className="w-24 h-24 bg-white border-2 border-black p-2 shadow-lg transform -rotate-1">
-                 <SuspectAvatar id={activeSuspect.id} color="#000" />
-              </div>
+            <div className="p-4 md:p-6 border-b border-gray-300 bg-white/80 backdrop-blur-sm shadow-sm flex flex-col md:flex-row md:items-start gap-4 md:gap-6 sticky top-0 z-20">
               
-              <div className="flex-grow">
-                 <div className="flex justify-between items-start">
-                   <div>
-                     <h1 className="font-mono text-2xl font-bold tracking-tight uppercase border-b-2 border-black inline-block mb-2">
-                       {activeSuspect.name}
-                     </h1>
-                     <div className="grid grid-cols-2 gap-x-8 gap-y-1 text-sm font-serif text-gray-800">
-                       <p><span className="font-bold text-gray-500">Role:</span> {activeSuspect.role}</p>
-                       <p><span className="font-bold text-gray-500">Age:</span> {activeSuspect.age}</p>
-                       <p className="col-span-2 mt-1 italic text-gray-600">"{activeSuspect.description}"</p>
+              {/* Mobile Back Button */}
+              <button 
+                onClick={() => setActiveSuspectId(null)}
+                className="md:hidden flex items-center gap-2 text-gray-500 font-bold uppercase text-xs tracking-widest mb-2"
+              >
+                <ArrowLeft size={16} /> Back to List
+              </button>
+
+              <div className="flex items-start gap-4">
+                <div className="w-20 h-20 md:w-24 md:h-24 bg-white border-2 border-black p-2 shadow-lg transform -rotate-1 flex-shrink-0">
+                   <SuspectAvatar id={activeSuspect.id} color="#000" />
+                </div>
+                
+                <div className="flex-grow">
+                   <div className="flex flex-col md:flex-row justify-between items-start gap-4">
+                     <div>
+                       <h1 className="font-mono text-xl md:text-2xl font-bold tracking-tight uppercase border-b-2 border-black inline-block mb-2">
+                         {activeSuspect.name}
+                       </h1>
+                       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-1 text-sm font-serif text-gray-800">
+                         <p><span className="font-bold text-gray-500">Role:</span> {activeSuspect.role}</p>
+                         <p><span className="font-bold text-gray-500">Age:</span> {activeSuspect.age}</p>
+                         <p className="col-span-1 md:col-span-2 mt-1 italic text-gray-600">"{activeSuspect.description}"</p>
+                       </div>
+                     </div>
+                     <div className="bg-red-50 border border-red-200 p-2 text-xs font-mono text-red-900 w-full md:max-w-[200px] shadow-sm relative overflow-hidden mt-2 md:mt-0">
+                        <div className="absolute top-0 right-0 p-1 opacity-20 transform translate-x-2 -translate-y-2">
+                          <svg width="40" height="40" viewBox="0 0 40 40">
+                            <circle cx="20" cy="20" r="18" fill="none" stroke="red" strokeWidth="2" />
+                            <text x="50%" y="50%" textAnchor="middle" dy=".3em" fill="red" fontSize="8" fontWeight="bold" transform="rotate(-15 20 20)">ALIBI</text>
+                          </svg>
+                        </div>
+                        <strong className="block border-b border-red-200 mb-1 z-10 relative">STATED ALIBI:</strong>
+                        {activeSuspect.alibi}
                      </div>
                    </div>
-                   <div className="bg-red-50 border border-red-200 p-2 text-xs font-mono text-red-900 max-w-[200px] shadow-sm relative overflow-hidden">
-                      <div className="absolute top-0 right-0 p-1 opacity-20 transform translate-x-2 -translate-y-2">
-                        <svg width="40" height="40" viewBox="0 0 40 40">
-                          <circle cx="20" cy="20" r="18" fill="none" stroke="red" strokeWidth="2" />
-                          <text x="50%" y="50%" textAnchor="middle" dy=".3em" fill="red" fontSize="8" fontWeight="bold" transform="rotate(-15 20 20)">ALIBI</text>
-                        </svg>
-                      </div>
-                      <strong className="block border-b border-red-200 mb-1 z-10 relative">STATED ALIBI:</strong>
-                      {activeSuspect.alibi}
-                   </div>
-                 </div>
+                </div>
               </div>
             </div>
 
             {/* Transcript Area */}
-            <div className="flex-grow overflow-y-auto p-8 md:p-12">
-               <div className="max-w-3xl mx-auto space-y-8 font-mono">
+            <div className="flex-grow overflow-y-auto p-4 md:p-12 bg-white/50">
+               <div className="max-w-3xl mx-auto space-y-8 font-mono pb-20">
                   <div className="text-center mb-8 relative">
                      <span className="bg-black text-white px-3 py-1 text-xs uppercase tracking-widest relative z-10">Official Transcript</span>
                      <div className="absolute top-1/2 left-0 w-full h-[1px] bg-black/20 -z-0"></div>
@@ -133,24 +145,24 @@ export const Interviews: React.FC<InterviewsProps> = ({
                         {/* Detective */}
                         <div className="mb-3">
                            {isAsked ? (
-                             <p className="text-sm font-bold text-gray-600 uppercase mb-1">Detective:</p>
+                             <p className="text-xs md:text-sm font-bold text-gray-600 uppercase mb-1">Detective:</p>
                            ) : (
                              <button 
                                onClick={() => onAskQuestion(activeSuspect.id, q.id, q.unlocksEvidenceId)}
-                               className="text-red-800 hover:text-red-600 font-bold border-b border-dotted border-red-800 hover:border-red-600 transition-all text-lg font-serif"
+                               className="text-red-800 hover:text-red-600 font-bold border-b border-dotted border-red-800 hover:border-red-600 transition-all text-base md:text-lg font-serif text-left"
                              >
                                {q.text} ?
                              </button>
                            )}
-                           {isAsked && <p className="text-gray-900 font-serif italic text-lg">"{q.text}"</p>}
+                           {isAsked && <p className="text-gray-900 font-serif italic text-base md:text-lg">"{q.text}"</p>}
                         </div>
 
                         {/* Suspect Response */}
                         {isAsked && (
-                          <div className="ml-8 mt-2 animate-in fade-in slide-in-from-left-2 duration-300 relative">
-                            <p className="text-sm font-bold text-gray-600 uppercase mb-1">Subject:</p>
+                          <div className="ml-4 md:ml-8 mt-2 animate-in fade-in slide-in-from-left-2 duration-300 relative">
+                            <p className="text-xs md:text-sm font-bold text-gray-600 uppercase mb-1">Subject:</p>
                             <div className="bg-gray-100/50 p-4 border border-gray-200 shadow-sm rounded-sm">
-                               <p className="text-black text-base leading-relaxed">
+                               <p className="text-black text-sm md:text-base leading-relaxed">
                                  {q.response}
                                </p>
                             </div>
@@ -175,11 +187,11 @@ export const Interviews: React.FC<InterviewsProps> = ({
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center h-full text-gray-400 bg-gray-50">
-             <div className="w-32 h-32 border-4 border-dashed border-gray-300 rounded-full flex items-center justify-center mb-4">
-               <User size={64} className="opacity-20 text-black" />
+          <div className="flex flex-col items-center justify-center h-full text-gray-400 bg-gray-50 p-6 text-center">
+             <div className="w-24 h-24 md:w-32 md:h-32 border-4 border-dashed border-gray-300 rounded-full flex items-center justify-center mb-4">
+               <User size={48} className="opacity-20 text-black" />
              </div>
-             <p className="font-serif text-xl text-gray-500">Select a suspect file to review.</p>
+             <p className="font-serif text-lg md:text-xl text-gray-500">Select a suspect file from the list to review interrogation notes.</p>
           </div>
         )}
       </div>

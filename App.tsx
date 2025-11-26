@@ -13,7 +13,7 @@ import { Lab } from './components/Lab';
 import { Accusation } from './components/Accusation';
 import { BackgroundResearch } from './components/BackgroundResearch';
 import { 
-  Briefcase, Map, Users, LayoutGrid, FlaskConical, FileEdit, HelpCircle, FileSearch 
+  Briefcase, Map, Users, LayoutGrid, FlaskConical, FileEdit, HelpCircle, FileSearch, RefreshCw 
 } from 'lucide-react';
 import { Modal } from './components/Modal';
 
@@ -177,9 +177,9 @@ const App: React.FC = () => {
           <div className="flex flex-col items-center justify-center h-full p-8 text-center bg-noir-950 bg-noise relative">
              <div className="absolute inset-0 bg-vignette pointer-events-none"></div>
              <div className="z-10 max-w-4xl w-full border-y-2 border-gold-600/30 py-12">
-               <h1 className="text-6xl font-serif text-paper-200 mb-6 tracking-widest drop-shadow-lg">THE MIDNIGHT MANUSCRIPT</h1>
+               <h1 className="text-4xl md:text-6xl font-serif text-paper-200 mb-6 tracking-widest drop-shadow-lg">THE MIDNIGHT MANUSCRIPT</h1>
                <div className="w-24 h-1 bg-gold-600 mx-auto mb-8"></div>
-               <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-12 font-serif leading-relaxed italic">
+               <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-12 font-serif leading-relaxed italic">
                  "Every book has an ending. Some are just written in blood."
                </p>
                
@@ -257,20 +257,22 @@ const App: React.FC = () => {
     }
   };
 
+  const tabs: Tab[] = ['home', 'crime_scene', 'interviews', 'evidence_board', 'lab', 'background', 'theory'];
+
   return (
-    <div className="flex h-screen w-screen bg-noir-950 text-gray-200 font-sans overflow-hidden selection:bg-gold-500 selection:text-black">
-      {/* Sidebar Nav */}
-      <nav className="w-20 md:w-64 flex-shrink-0 bg-noir-900 border-r border-gold-600/20 flex flex-col z-20 shadow-2xl relative">
+    <div className="flex flex-col md:flex-row h-screen w-screen bg-noir-950 text-gray-200 font-sans overflow-hidden selection:bg-gold-500 selection:text-black">
+      
+      {/* Desktop Sidebar Nav (Hidden on Mobile) */}
+      <nav className="hidden md:flex w-64 flex-shrink-0 bg-noir-900 border-r border-gold-600/20 flex-col z-20 shadow-2xl relative">
         <div className="absolute inset-y-0 right-0 w-[1px] bg-gradient-to-b from-transparent via-gold-600/50 to-transparent"></div>
         
         <div className="p-6 border-b border-gray-800 bg-noir-950">
-          <span className="hidden md:block font-serif text-2xl text-gold-500 tracking-wider font-bold">DETECTIVE</span>
-          <span className="md:hidden font-serif text-xl text-gold-500 font-bold">DET</span>
-          <div className="hidden md:block text-[10px] text-gray-600 uppercase tracking-[0.3em] mt-1">Investigations Unit</div>
+          <span className="font-serif text-2xl text-gold-500 tracking-wider font-bold">DETECTIVE</span>
+          <div className="text-[10px] text-gray-600 uppercase tracking-[0.3em] mt-1">Investigations Unit</div>
         </div>
         
-        <div className="flex-grow py-6 space-y-1">
-          {(['home', 'crime_scene', 'interviews', 'evidence_board', 'lab', 'background', 'theory'] as Tab[]).map(tab => (
+        <div className="flex-grow py-6 space-y-1 overflow-y-auto">
+          {tabs.map(tab => (
             <button
               key={tab}
               onClick={() => changeTab(tab)}
@@ -283,7 +285,7 @@ const App: React.FC = () => {
                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-gold-500 shadow-[0_0_10px_rgba(197,160,40,0.8)]"></div>
               )}
               <div className="relative z-10"><NavIcon tab={tab} /></div>
-              <span className="hidden md:block ml-4 text-sm font-bold uppercase tracking-widest font-sans">{tab.replace('_', ' ')}</span>
+              <span className="ml-4 text-sm font-bold uppercase tracking-widest font-sans">{tab.replace('_', ' ')}</span>
             </button>
           ))}
         </div>
@@ -293,15 +295,47 @@ const App: React.FC = () => {
              onClick={resetGame}
              className="w-full text-[10px] font-mono text-gray-700 hover:text-red-500 transition-colors uppercase tracking-widest flex items-center gap-2 justify-center"
            >
-             [ Reset Simulation ]
+             <RefreshCw size={12} /> [ Reset Sim ]
            </button>
         </div>
       </nav>
 
-      {/* Main Content */}
+      {/* Main Content Area */}
       <main className="flex-grow flex flex-col h-full overflow-hidden relative shadow-inner">
         {renderContent()}
       </main>
+
+      {/* Mobile Bottom Nav (Visible only on Mobile) */}
+      <nav className="md:hidden flex-shrink-0 bg-noir-900 border-t border-gold-600/30 flex justify-around items-center px-2 py-3 z-30">
+        {tabs.slice(0, 5).map(tab => (
+          <button
+            key={tab}
+            onClick={() => changeTab(tab)}
+            className={`flex flex-col items-center justify-center p-2 rounded transition-colors
+              ${gameState.currentTab === tab 
+                ? 'text-gold-500' 
+                : 'text-gray-600 hover:text-gray-400'}`}
+          >
+            <NavIcon tab={tab} />
+            <span className="text-[8px] uppercase font-bold mt-1 tracking-wider">{tab.replace('_', ' ').split(' ')[0]}</span>
+          </button>
+        ))}
+        {/* Combine extra tabs into a 'More' concept or just show important ones. 
+            For this app, Background and Theory are critical. Let's add Theory as the 6th if space allows, 
+            or rely on the user cycling through tabs if we had a carousel. 
+            Better yet, let's just render the most critical ones for gameplay loop. 
+        */}
+         <button
+            onClick={() => changeTab('theory')}
+            className={`flex flex-col items-center justify-center p-2 rounded transition-colors
+              ${gameState.currentTab === 'theory' 
+                ? 'text-red-500' 
+                : 'text-gray-600 hover:text-gray-400'}`}
+          >
+            <FileEdit size={18} />
+            <span className="text-[8px] uppercase font-bold mt-1 tracking-wider">Solve</span>
+          </button>
+      </nav>
 
       {/* Feedback Modal */}
       <Modal 

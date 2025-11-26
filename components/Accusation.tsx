@@ -67,16 +67,16 @@ export const Accusation: React.FC<AccusationProps> = ({ suspects, evidence, onSu
   }
 
   return (
-    <div className="h-full p-6 overflow-y-auto pb-20 bg-paper-200 bg-noise text-noir-900">
-      <div className="max-w-4xl mx-auto bg-paper-100 shadow-[0_0_30px_rgba(0,0,0,0.3)] min-h-full p-8 md:p-12 relative">
+    <div className="h-full p-4 md:p-6 overflow-y-auto pb-20 bg-paper-200 bg-noise text-noir-900">
+      <div className="max-w-4xl mx-auto bg-paper-100 shadow-[0_0_30px_rgba(0,0,0,0.3)] min-h-full p-6 md:p-12 relative">
         
         {/* Report Header */}
         <div className="border-b-4 border-black pb-6 mb-10 flex justify-between items-start">
            <div>
-             <h1 className="text-3xl font-bold font-serif tracking-widest uppercase">Official Indictment</h1>
+             <h1 className="text-2xl md:text-3xl font-bold font-serif tracking-widest uppercase">Official Indictment</h1>
              <p className="font-mono text-sm mt-1 text-gray-600">Criminal Investigation Division // Homicide</p>
            </div>
-           <div className="border-2 border-red-800 p-2 text-center transform rotate-6 opacity-80">
+           <div className="border-2 border-red-800 p-2 text-center transform rotate-6 opacity-80 hidden md:block">
               <span className="block text-xs text-red-800 font-bold uppercase">Confidential</span>
               <span className="block text-red-800 font-serif text-lg leading-none">DO NOT COPY</span>
            </div>
@@ -100,7 +100,7 @@ export const Accusation: React.FC<AccusationProps> = ({ suspects, evidence, onSu
                       : 'border-transparent hover:border-gray-300 opacity-60 grayscale hover:grayscale-0'
                   }`}
                 >
-                  <div className="w-20 h-20 bg-gray-200 p-1">
+                  <div className="w-16 h-16 md:w-20 md:h-20 bg-gray-200 p-1">
                      <SuspectAvatar id={s.id} color="#000" />
                   </div>
                   <span className="text-xs font-bold font-serif text-center">{s.name}</span>
@@ -110,7 +110,7 @@ export const Accusation: React.FC<AccusationProps> = ({ suspects, evidence, onSu
           </section>
 
           {/* 2. Method, Motive, Time */}
-          <section className="grid md:grid-cols-3 gap-8">
+          <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
               <h3 className="font-mono font-bold uppercase text-sm mb-3 border-b border-gray-400 pb-1">
                  Method of Killing
@@ -192,7 +192,7 @@ export const Accusation: React.FC<AccusationProps> = ({ suspects, evidence, onSu
             )}
             <button
               onClick={handleSubmit}
-              className="bg-red-800 hover:bg-red-700 text-white font-bold py-4 px-12 text-xl tracking-widest shadow-xl transition-all flex items-center gap-3 uppercase font-serif border-2 border-red-900"
+              className="bg-red-800 hover:bg-red-700 text-white font-bold py-4 px-12 text-xl tracking-widest shadow-xl transition-all flex items-center gap-3 uppercase font-serif border-2 border-red-900 w-full md:w-auto justify-center"
             >
               <Gavel size={28} />
               Issue Warrant

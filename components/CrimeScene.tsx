@@ -25,24 +25,24 @@ export const CrimeScene: React.FC<CrimeSceneProps> = ({ evidence, onCollectEvide
   };
 
   return (
-    <div className="h-full flex flex-col p-4 md:p-6 bg-noir-950 bg-noise relative">
+    <div className="h-full flex flex-col p-2 md:p-6 bg-noir-950 bg-noise relative">
       {/* Blueprint Header */}
-      <div className="flex justify-between items-end mb-4 border-b-2 border-white/20 pb-4 z-10">
+      <div className="flex flex-col md:flex-row justify-between md:items-end mb-2 md:mb-4 border-b-2 border-white/20 pb-2 md:pb-4 z-10 gap-2 md:gap-0">
         <div>
-           <h2 className="text-2xl md:text-3xl font-serif font-bold text-paper-200 tracking-wider">CRIME SCENE: LIBRARY</h2>
+           <h2 className="text-xl md:text-3xl font-serif font-bold text-paper-200 tracking-wider">CRIME SCENE: LIBRARY</h2>
            <div className="flex items-center gap-3 mt-1">
-             <span className="bg-red-900/40 text-red-400 text-xs px-2 py-1 border border-red-900/60 uppercase font-mono tracking-widest">Zone Sealed</span>
-             <span className="text-gray-500 font-mono text-xs uppercase">Ashford Manor, Floor 1</span>
+             <span className="bg-red-900/40 text-red-400 text-[10px] md:text-xs px-2 py-1 border border-red-900/60 uppercase font-mono tracking-widest">Zone Sealed</span>
+             <span className="text-gray-500 font-mono text-[10px] md:text-xs uppercase">Ashford Manor, Floor 1</span>
            </div>
         </div>
-        <div className="text-right hidden md:block">
+        <div className="flex justify-between md:block md:text-right">
            <p className="font-mono text-xs text-gold-600">CASE #10-13</p>
            <p className="font-mono text-xs text-gray-500">23:47 PM</p>
         </div>
       </div>
 
       {/* Blueprint Container */}
-      <div className="relative flex-grow border-4 border-[#2a3b55] shadow-[inset_0_0_50px_rgba(0,0,0,0.5)] overflow-hidden rounded-sm bg-[#1a2332] group cursor-crosshair">
+      <div className="relative flex-grow border-2 md:border-4 border-[#2a3b55] shadow-[inset_0_0_50px_rgba(0,0,0,0.5)] overflow-hidden rounded-sm bg-[#1a2332] group cursor-crosshair">
         
         {/* Grid Background */}
         <div className="absolute inset-0 opacity-20" 
@@ -143,7 +143,7 @@ export const CrimeScene: React.FC<CrimeSceneProps> = ({ evidence, onCollectEvide
             </div>
 
             {/* Hover Tooltip */}
-            <div className={`absolute left-full ml-2 top-1/2 -translate-y-1/2 bg-[#0a0a0a] border border-gold-500 px-3 py-1 text-xs text-gold-100 font-mono whitespace-nowrap z-30 pointer-events-none transition-all duration-200 shadow-xl
+            <div className={`absolute left-full ml-2 top-1/2 -translate-y-1/2 bg-[#0a0a0a] border border-gold-500 px-3 py-1 text-xs text-gold-100 font-mono whitespace-nowrap z-30 pointer-events-none transition-all duration-200 shadow-xl hidden md:block
               ${item.isCollected ? 'hidden' : 'opacity-0 group-hover:opacity-100'}`}>
               <div className="flex flex-col text-left">
                 <span className="font-bold uppercase tracking-widest text-[10px] text-gold-500">Evidence Signal</span>
