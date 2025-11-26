@@ -61,7 +61,7 @@ const App: React.FC = () => {
   // --- ACTIONS ---
   const changeTab = (tab: Tab) => setGameState(prev => ({ ...prev, currentTab: tab }));
 
-  const collectEvidence = (evidenceId: string) => {
+  const collectEvidence = (evidenceId: string, silent: boolean = false) => {
     setGameState(prev => {
       const exists = prev.evidence.find(e => e.id === evidenceId)?.isCollected;
       if (exists) return prev;
@@ -71,7 +71,9 @@ const App: React.FC = () => {
         evidence: prev.evidence.map(e => e.id === evidenceId ? { ...e, isCollected: true } : e)
       };
     });
-    showFeedback("NEW EVIDENCE LOGGED");
+    if (!silent) {
+      showFeedback("NEW EVIDENCE LOGGED");
+    }
   };
 
   const askQuestion = (suspectId: string, questionId: string, unlockedEvidenceId?: string) => {
@@ -320,11 +322,6 @@ const App: React.FC = () => {
             <span className="text-[8px] uppercase font-bold mt-1 tracking-wider">{tab.replace('_', ' ').split(' ')[0]}</span>
           </button>
         ))}
-        {/* Combine extra tabs into a 'More' concept or just show important ones. 
-            For this app, Background and Theory are critical. Let's add Theory as the 6th if space allows, 
-            or rely on the user cycling through tabs if we had a carousel. 
-            Better yet, let's just render the most critical ones for gameplay loop. 
-        */}
          <button
             onClick={() => changeTab('theory')}
             className={`flex flex-col items-center justify-center p-2 rounded transition-colors
